@@ -1,5 +1,7 @@
 package edu.up.cs301.pig;
 
+import java.util.Random;
+
 import edu.up.cs301.game.GameComputerPlayer;
 import edu.up.cs301.game.actionMsg.GameAction;
 import edu.up.cs301.game.infoMsg.GameInfo;
@@ -12,7 +14,7 @@ import edu.up.cs301.game.util.Tickable;
  * @version August 2015
  */
 public class PigComputerPlayer extends GameComputerPlayer {
-
+    Random rand = new Random();
     /**
      * ctor does nothing extra
      */
@@ -28,7 +30,19 @@ public class PigComputerPlayer extends GameComputerPlayer {
      */
     @Override
     protected void receiveInfo(GameInfo info) {
-        // TODO  You will implement this method
+        PigGameState pigGameState = (PigGameState)info;
+
+        if(pigGameState.getTurnID() != playerNum){
+            return;
+        }
+
+        sleep(1000);
+
+        if(rand.nextBoolean()){
+            game.sendAction(new PigHoldAction(this));
+        } else {
+            game.sendAction(new PigRollAction(this));
+        }
     }//receiveInfo
 
 }
